@@ -330,6 +330,7 @@ public:
   void visitMemoryGrow(MemoryGrow* curr);
   void visitRefIsNull(RefIsNull* curr);
   void visitRefFunc(RefFunc* curr);
+  void visitRefEq(RefEq* curr);
   void visitTry(Try* curr);
   void visitThrow(Throw* curr);
   void visitRethrow(Rethrow* curr);
@@ -1396,6 +1397,8 @@ void FunctionValidator::validateMemBytes(uint8_t bytes,
     case Type::externref:
     case Type::exnref:
     case Type::anyref:
+    case Type::eqref:
+    case Type::i31ref:
     case Type::none:
       WASM_UNREACHABLE("unexpected type");
   }
@@ -1955,6 +1958,21 @@ void FunctionValidator::visitRefFunc(RefFunc* curr) {
   shouldBeTrue(!!func, curr, "function argument of ref.func must exist");
 }
 
+void FunctionValidator::visitRefEq(RefEq* curr) {
+  shouldBeTrue(
+    getModule()->features.hasGC(), curr, "ref.eq requires gc to be enabled");
+  shouldBeSubTypeOrFirstIsUnreachable(
+    curr->left->type,
+    Type::eqref,
+    curr->left,
+    "ref.eq's left argument should be a subtype of eqref");
+  shouldBeSubTypeOrFirstIsUnreachable(
+    curr->right->type,
+    Type::eqref,
+    curr->right,
+    "ref.eq's right argument should be a subtype of eqref");
+}
+
 void FunctionValidator::visitTry(Try* curr) {
   if (curr->type != Type::unreachable) {
     shouldBeSubTypeOrFirstIsUnreachable(
@@ -2204,6 +2222,8 @@ void FunctionValidator::validateAlignment(
     case Type::externref:
     case Type::exnref:
     case Type::anyref:
+    case Type::eqref:
+    case Type::i31ref:
     case Type::none:
       WASM_UNREACHABLE("invalid type");
   }

@@ -1206,10 +1206,14 @@ Type WasmBinaryBuilder::getType() {
       return Type::exnref;
     case BinaryConsts::EncodedType::anyref:
       return Type::anyref;
+    case BinaryConsts::EncodedType::eqref:
+      return Type::eqref;
+    case BinaryConsts::EncodedType::i31ref:
+      return Type::i31ref;
     default:
       throwError("invalid wasm type: " + std::to_string(type));
   }
-  WASM_UNREACHABLE("unexpeced type");
+  WASM_UNREACHABLE("unexpected type");
 }
 
 HeapType WasmBinaryBuilder::getHeapType() {
@@ -1230,10 +1234,14 @@ HeapType WasmBinaryBuilder::getHeapType() {
       return HeapType::ExnKind;
     case BinaryConsts::EncodedHeapType::any:
       return HeapType::AnyKind;
+    case BinaryConsts::EncodedHeapType::eq:
+      return HeapType::EqKind;
+    case BinaryConsts::EncodedHeapType::i31:
+      return HeapType::I31Kind;
     default:
       throwError("invalid wasm heap type: " + std::to_string(type));
   }
-  WASM_UNREACHABLE("unexpeced type");
+  WASM_UNREACHABLE("unexpected type");
 }
 
 Type WasmBinaryBuilder::getConcreteType() {
@@ -2465,6 +2473,9 @@ BinaryConsts::ASTNodes WasmBinaryBuilder::readExpression(Expression*& curr) {
       break;
     case BinaryConsts::RefFunc:
       visitRefFunc((curr = allocator.alloc<RefFunc>())->cast<RefFunc>());
+      break;
+    case BinaryConsts::RefEq:
+      visitRefEq((curr = allocator.alloc<RefEq>())->cast<RefEq>());
       break;
     case BinaryConsts::Try:
       visitTryOrTryInBlock(curr);
@@ -4853,6 +4864,13 @@ void WasmBinaryBuilder::visitRefFunc(RefFunc* curr) {
     throwError("ref.func: invalid call index");
   }
   functionRefs[index].push_back(curr); // we don't know function names yet
+  curr->finalize();
+}
+
+void WasmBinaryBuilder::visitRefEq(RefEq* curr) {
+  BYN_TRACE("zz node: RefEq\n");
+  curr->right = popNonVoidExpression();
+  curr->left = popNonVoidExpression();
   curr->finalize();
 }
 
