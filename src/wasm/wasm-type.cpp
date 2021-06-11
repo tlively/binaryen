@@ -29,7 +29,7 @@
 #include "wasm-features.h"
 #include "wasm-type.h"
 
-#define TRACE_CANONICALIZATION 0
+#define TRACE_CANONICALIZATION 1
 #define TIME_CANONICALIZATION 0
 
 #if TRACE_CANONICALIZATION || TIME_CANONICALIZATION
@@ -44,6 +44,7 @@ namespace wasm {
 
 static TypeSystem typeSystem = TypeSystem::Equirecursive;
 void setTypeSystem(TypeSystem system) { typeSystem = system; }
+TypeSystem getTypeSystem() { return typeSystem; }
 
 namespace {
 
@@ -1297,6 +1298,8 @@ bool SubTyper::isSubType(HeapType a, HeapType b) {
         return true;
       }
     }
+    std::cerr << "Subtype check failed between " << getHeapTypeInfo(a)
+              << " and " << getHeapTypeInfo(b) << "\n";
     return false;
   }
   // As we recurse, we will coinductively assume that a == b unless proven
@@ -2266,6 +2269,7 @@ Type TypeBuilder::getTempRttType(Rtt rtt) {
 
 void TypeBuilder::setSubType(size_t i, size_t j) {
   assert(i < size() && j < size() && "index out of bounds");
+  std::cerr << i << " <: " << j << "\n";
   HeapTypeInfo* sub = impl->entries[i].info.get();
   HeapTypeInfo* super = impl->entries[j].info.get();
   sub->supertype = super;
@@ -2959,6 +2963,9 @@ std::vector<HeapType> buildEquirecursive(TypeBuilder& builder) {
 
 void validateNominalSubTyping(const std::vector<HeapType>& heapTypes) {
   assert(typeSystem == TypeSystem::Nominal);
+  for (size_t i = 0; i < heapTypes.size(); ++i) {
+    std::cerr << i << ": " << getHeapTypeInfo(heapTypes[i]) << "\n";
+  }
 
   // Ensure there are no cycles in the subtype graph. This is the classic DFA
   // algorithm for detecting cycles, but in the form of a simple loop because
@@ -2977,7 +2984,8 @@ void validateNominalSubTyping(const std::vector<HeapType>& heapTypes) {
   }
 
   // Ensure that all the subtype relations are valid.
-  for (HeapType type : heapTypes) {
+  for (size_t i = 0; i < heapTypes.size(); ++i) {
+    HeapType type = heapTypes[i];
     auto* sub = getHeapTypeInfo(type);
     auto* super = sub->supertype;
     if (super == nullptr) {
@@ -2985,8 +2993,10 @@ void validateNominalSubTyping(const std::vector<HeapType>& heapTypes) {
     }
 
     auto fail = [&]() {
-      Fatal() << type << " cannot be a subtype of "
-              << HeapType(uintptr_t(super));
+      size_t j = 0;
+      for (; getHeapTypeInfo(heapTypes[j]) != super; ++j) {
+      }
+      Fatal() << i << " cannot be a subtype of " << j << "\n";
     };
 
     if (sub->kind != super->kind) {

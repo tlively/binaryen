@@ -114,6 +114,16 @@ struct ToolOptions : public Options {
                value = argument.substr(colon + 1);
              }
              passOptions.arguments[key] = value;
+           })
+      .add("--nominal",
+           "",
+           "Use the prototype nominal type system instead of the normal "
+           "equirecursive type system. Subtyping is determined by text format "
+           "globals initialized with rtt.subs of global.gets. The rtt globals "
+           "must be named `$<type_name>.rtt`.",
+           Options::Arguments::Zero,
+           [](Options* o, const std::string& argument) {
+             setTypeSystem(TypeSystem::Nominal);
            });
   }
 

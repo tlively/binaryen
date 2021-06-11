@@ -152,6 +152,7 @@ public:
 
 private:
   void preParseHeapTypes(Element& module);
+  void inferSubTypes(Element& module, TypeBuilder& builder);
   // pre-parse types and function definitions, so we know function return types
   // before parsing their contents
   void preParseFunctionType(Element& s);

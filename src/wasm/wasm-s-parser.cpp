@@ -854,6 +854,9 @@ void SExpressionWasmBuilder::preParseHeapTypes(Element& module) {
 
   size_t index = 0;
   forEachType([&](Element& elem) {
+    if (elem[1]->dollared()) {
+      std::cerr << index << ": " << elem[1]->c_str() << "\n";
+    }
     Element& def = elem[1]->dollared() ? *elem[2] : *elem[1];
     Element& kind = *def[0];
     if (kind == FUNC) {
@@ -867,6 +870,12 @@ void SExpressionWasmBuilder::preParseHeapTypes(Element& module) {
       throw ParseException("unknown heaptype kind", kind.line, kind.col);
     }
   });
+
+  // Look through the module for globals intialized with rtt.sub to infer
+  // subtype relations.
+  if (getTypeSystem() == TypeSystem::Nominal) {
+    inferSubTypes(module, builder);
+  }
 
   types = builder.build();
 
@@ -885,6 +894,45 @@ void SExpressionWasmBuilder::preParseHeapTypes(Element& module) {
     if (type.isStruct()) {
       currTypeNames.fieldNames = fieldNames[index];
     }
+  }
+}
+
+void SExpressionWasmBuilder::inferSubTypes(Element& module,
+                                           TypeBuilder& builder) {
+  // Total hack to infer nominal subtyping by looking for globals of the form
+  //
+  //   (global (...) (rtt.sub $<subtype> (global.get $<supertype>.rtt)))
+  //
+  for (auto* elemPtr : module) {
+    auto& elem = *elemPtr;
+    if (!elementStartsWith(elem, GLOBAL)) {
+      continue;
+    }
+    auto& init = *elem[3];
+    if (!elementStartsWith(init, "rtt.sub")) {
+      continue;
+    }
+    auto& globalGet = *init[2];
+    if (!elementStartsWith(globalGet, "global.get")) {
+      continue;
+    }
+    if (!init[1]->isStr() || !globalGet[1]->isStr()) {
+      continue;
+    }
+    std::string subName(init[1]->c_str());
+    std::string superRttName(globalGet[1]->c_str());
+    // Remove ".rtt" to get the name of the supertype.
+    std::string superName = superRttName.substr(0, superRttName.size() - 4);
+
+    auto subIt = typeIndices.find(subName);
+    if (subIt == typeIndices.end()) {
+      continue;
+    }
+    auto superIt = typeIndices.find(superName);
+    if (superIt == typeIndices.end()) {
+      continue;
+    }
+    builder[subIt->second].subTypeOf(builder[superIt->second]);
   }
 }
 
