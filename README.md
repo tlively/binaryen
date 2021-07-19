@@ -420,6 +420,15 @@ Things keep to in mind with wasm2js's output:
 
 ## Testing
 
+Some binaryen tests depend on external Python dependencies, including `lit` and
+`filecheck`. To install all the Python development dependencies, run
+
+```
+pip3 install -r requirements-dev.txt
+```
+
+To run all test suites, run
+
 ```
 ./check.py
 ```
