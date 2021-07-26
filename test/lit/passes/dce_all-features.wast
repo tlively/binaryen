@@ -1,3 +1,7 @@
+;; NOTE: This test was ported using port_test.py and could be cleaned up.
+
+;; RUN: foreach %s %t wasm-opt --dce --all-features -S -o - | filecheck %s
+
 (module
   (memory 10)
   (type $ii (func (param i32 i32)))
