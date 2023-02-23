@@ -173,7 +173,7 @@ struct SafeHeap : public Pass {
       segfault = existing->name;
     } else {
       auto import = Builder::makeFunction(
-        SEGFAULT_IMPORT, Signature(Type::none, Type::none), {});
+        SEGFAULT_IMPORT, Signature(indexType, Type::none), {});
       segfault = SEGFAULT_IMPORT;
       import->module = ENV;
       import->base = SEGFAULT_IMPORT;
@@ -183,7 +183,7 @@ struct SafeHeap : public Pass {
       alignfault = existing->name;
     } else {
       auto import = Builder::makeFunction(
-        ALIGNFAULT_IMPORT, Signature(Type::none, Type::none), {});
+        ALIGNFAULT_IMPORT, Signature(indexType, Type::none), {});
 
       alignfault = ALIGNFAULT_IMPORT;
       import->module = ENV;
@@ -381,7 +381,7 @@ struct SafeHeap : public Pass {
     return builder.makeIf(
       builder.makeBinary(
         AndInt32, ptrBits, builder.makeConst(int32_t(align - 1))),
-      builder.makeCall(alignfault, {}, Type::none));
+      builder.makeCall(alignfault, {builder.makeLocalGet(local, indexType)}, Type::none));
   }
 
   Expression* makeBoundsCheck(Type type,
@@ -425,7 +425,7 @@ struct SafeHeap : public Pass {
                              builder.makeLocalGet(local, indexType),
                              builder.makeConstPtr(bytes, indexType)),
           brkLocation)),
-      builder.makeCall(segfault, {}, Type::none));
+      builder.makeCall(segfault, {builder.makeLocalGet(local, indexType)}, Type::none));
   }
 };
 
