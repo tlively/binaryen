@@ -108,6 +108,7 @@ void PassRegistry::registerPasses() {
   registerPass("abstract-type-refining",
                "refine and merge abstract (never-created) types",
                createAbstractTypeRefiningPass);
+  registerPass("classify-funcs", "experimental", createClassifyFuncsPass);
   registerPass("coalesce-locals",
                "reduce # of locals by coalescing",
                createCoalesceLocalsPass);
