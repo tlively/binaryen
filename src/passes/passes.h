@@ -191,6 +191,7 @@ Pass* createTypeRefiningPass();
 Pass* createTypeRefiningGUFAPass();
 Pass* createTypeFinalizingPass();
 Pass* createTypeMergingPass();
+Pass* createTypeMetricsPass();
 Pass* createTypeSSAPass();
 Pass* createTypeUnFinalizingPass();
 Pass* createUnsubtypingPass();

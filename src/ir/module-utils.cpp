@@ -539,6 +539,9 @@ InsertOrderedMap<HeapType, HeapTypeInfo> collectHeapTypeInfo(
   while (!newTypes.empty()) {
     while (!newTypes.empty()) {
       auto ht = newTypes.pop();
+      if (inclusion == TypeInclusion::DirectlyUsedIRTypes) {
+        continue;
+      }
       for (HeapType child : ht.getReferencedHeapTypes()) {
         if (!child.isBasic()) {
           if (!info.contains(child)) {
@@ -550,14 +553,15 @@ InsertOrderedMap<HeapType, HeapTypeInfo> collectHeapTypeInfo(
 
       // Make sure we've noted the complete recursion group of each type as
       // well.
-      if (inclusion != TypeInclusion::UsedIRTypes) {
-        auto recGroup = ht.getRecGroup();
-        if (includedGroups.insert(recGroup).second) {
-          for (auto type : recGroup) {
-            if (!info.contains(type)) {
-              noteNewType(type);
-              info.include(type);
-            }
+      if (inclusion == TypeInclusion::UsedIRTypes) {
+        continue;
+      }
+      auto recGroup = ht.getRecGroup();
+      if (includedGroups.insert(recGroup).second) {
+        for (auto type : recGroup) {
+          if (!info.contains(type)) {
+            noteNewType(type);
+            info.include(type);
           }
         }
       }

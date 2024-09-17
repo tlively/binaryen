@@ -120,6 +120,7 @@ set(passes_SOURCES
   TypeGeneralizing.cpp
   TypeRefining.cpp
   TypeMerging.cpp
+  TypeMetrics.cpp
   TypeSSA.cpp
   SafeHeap.cpp
   SeparateDataSegments.cpp

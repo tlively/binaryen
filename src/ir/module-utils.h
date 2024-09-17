@@ -454,9 +454,17 @@ template<typename T> struct CallGraphPropertyAnalysis {
 //   they are in a rec group with some other used type and types that are only
 //   used from other unreachable types.
 //
+//   DirectlyUsedIRTypes - Same as UsedIRTypes, but additionally excludes types
+//   that are only reachable from other types.
+//
 //   BinaryTypes - Only types that need to appear in the module's type section.
 //
-enum class TypeInclusion { AllTypes, UsedIRTypes, BinaryTypes };
+enum class TypeInclusion {
+  AllTypes,
+  UsedIRTypes,
+  DirectlyUsedIRTypes,
+  BinaryTypes
+};
 
 // Whether to classify collected types as public and private.
 enum class VisibilityHandling { NoVisibility, FindVisibility };

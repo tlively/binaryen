@@ -574,6 +574,7 @@ void PassRegistry::registerPasses() {
   registerPass("type-merging",
                "merge types to their supertypes where possible",
                createTypeMergingPass);
+  registerPass("type-metrics", "experimental", createTypeMetricsPass);
   registerPass("type-ssa",
                "create new nominal types to help other optimizations",
                createTypeSSAPass);
