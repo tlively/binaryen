@@ -1561,6 +1561,14 @@ struct I64ToI32Lowering : public WalkerPass<PostWalker<I64ToI32Lowering>> {
     WASM_UNREACHABLE("TODO: wide arithmetic lowering");
   }
 
+  void visitWideIntAdd2(WideIntAdd2* curr) {
+    WASM_UNREACHABLE("TODO: wide arithmetic lowering");
+  }
+
+  void visitWideIntAdd3(WideIntAdd3* curr) {
+    WASM_UNREACHABLE("TODO: wide arithmetic lowering");
+  }
+
   void visitSelect(Select* curr) {
     if (handleUnreachable(curr)) {
       return;

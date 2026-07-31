@@ -686,6 +686,22 @@ public:
     ret->finalize();
     return ret;
   }
+  WideIntAdd2* makeWideIntAdd2(Expression* left, Expression* right) {
+    auto* ret = wasm.allocator.alloc<WideIntAdd2>();
+    ret->left = left;
+    ret->right = right;
+    ret->finalize();
+    return ret;
+  }
+  WideIntAdd3*
+  makeWideIntAdd3(Expression* left, Expression* middle, Expression* right) {
+    auto* ret = wasm.allocator.alloc<WideIntAdd3>();
+    ret->left = left;
+    ret->middle = middle;
+    ret->right = right;
+    ret->finalize();
+    return ret;
+  }
   Select*
   makeSelect(Expression* condition, Expression* ifTrue, Expression* ifFalse) {
     auto* ret = wasm.allocator.alloc<Select>();

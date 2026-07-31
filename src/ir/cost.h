@@ -584,6 +584,12 @@ struct CostAnalyzer : public OverriddenVisitor<CostAnalyzer, CostType> {
   CostType visitWideIntMul(WideIntMul* curr) {
     return 4 + visit(curr->left) + visit(curr->right);
   }
+  CostType visitWideIntAdd2(WideIntAdd2* curr) {
+    return 1 + visit(curr->left) + visit(curr->right);
+  }
+  CostType visitWideIntAdd3(WideIntAdd3* curr) {
+    return 1 + visit(curr->left) + visit(curr->middle) + visit(curr->right);
+  }
   CostType visitSelect(Select* curr) {
     return 1 + visit(curr->condition) + visit(curr->ifTrue) +
            visit(curr->ifFalse);

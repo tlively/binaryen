@@ -192,6 +192,8 @@ public:
   Result<> makeBinary(BinaryOp op);
   Result<> makeWideIntAddSub(WideIntAddSubOp op);
   Result<> makeWideIntMul(WideIntMulOp op);
+  Result<> makeWideIntAdd2();
+  Result<> makeWideIntAdd3();
   Result<> makeSelect(std::optional<Type> type = std::nullopt);
   Result<> makeDrop();
   Result<> makeReturn();

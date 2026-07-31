@@ -496,6 +496,12 @@ struct NullInstrParserCtx {
   Result<> makeWideIntMul(Index, const std::vector<Annotation>&, WideIntMulOp) {
     return Ok{};
   }
+  Result<> makeWideIntAdd2(Index, const std::vector<Annotation>&) {
+    return Ok{};
+  }
+  Result<> makeWideIntAdd3(Index, const std::vector<Annotation>&) {
+    return Ok{};
+  }
 
   Result<> makeUnary(Index, const std::vector<Annotation>&, UnaryOp) {
     return Ok{};
@@ -2229,6 +2235,16 @@ struct ParseDefsCtx : TypeParserCtx<ParseDefsCtx>, AnnotationParserCtx {
                           const std::vector<Annotation>& annotations,
                           WideIntMulOp op) {
     return withLoc(pos, irBuilder.makeWideIntMul(op));
+  }
+
+  Result<> makeWideIntAdd2(Index pos,
+                           const std::vector<Annotation>& annotations) {
+    return withLoc(pos, irBuilder.makeWideIntAdd2());
+  }
+
+  Result<> makeWideIntAdd3(Index pos,
+                           const std::vector<Annotation>& annotations) {
+    return withLoc(pos, irBuilder.makeWideIntAdd3());
   }
 
   Result<>

@@ -1867,6 +1867,41 @@ public:
     results.push_back(Literal(result.high));
     return results;
   }
+  Flow visitWideIntAdd2(WideIntAdd2* curr) {
+    VISIT(left, curr->left);
+    VISIT(right, curr->right);
+
+    uint64_t lhs = left.getSingleValue().geti64();
+    uint64_t rhs = right.getSingleValue().geti64();
+
+    uint64_t lowResult = 0;
+    bool overflowed = std::ckd_add(&lowResult, lhs, rhs);
+    uint64_t highResult = overflowed ? 1 : 0;
+
+    Literals results;
+    results.push_back(Literal(lowResult));
+    results.push_back(Literal(highResult));
+    return results;
+  }
+  Flow visitWideIntAdd3(WideIntAdd3* curr) {
+    VISIT(left, curr->left);
+    VISIT(middle, curr->middle);
+    VISIT(right, curr->right);
+
+    uint64_t lhs = left.getSingleValue().geti64();
+    uint64_t mid = middle.getSingleValue().geti64();
+    uint64_t rhs = right.getSingleValue().geti64();
+
+    uint64_t lowResult = 0;
+    bool overflow1 = std::ckd_add(&lowResult, lhs, mid);
+    bool overflow2 = std::ckd_add(&lowResult, lowResult, rhs);
+    uint64_t highResult = (uint64_t)overflow1 + (uint64_t)overflow2;
+
+    Literals results;
+    results.push_back(Literal(lowResult));
+    results.push_back(Literal(highResult));
+    return results;
+  }
   Flow visitDrop(Drop* curr) {
     VISIT(value, curr->value)
     return Flow();

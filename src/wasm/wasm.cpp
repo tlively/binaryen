@@ -817,6 +817,23 @@ void WideIntMul::finalize() {
   }
 }
 
+void WideIntAdd2::finalize() {
+  if (left->type == Type::unreachable || right->type == Type::unreachable) {
+    type = Type::unreachable;
+  } else {
+    type = Types::getI64Pair();
+  }
+}
+
+void WideIntAdd3::finalize() {
+  if (left->type == Type::unreachable || middle->type == Type::unreachable ||
+      right->type == Type::unreachable) {
+    type = Type::unreachable;
+  } else {
+    type = Types::getI64Pair();
+  }
+}
+
 void Select::finalize() {
   assert(ifTrue && ifFalse);
   if (ifTrue->type == Type::unreachable || ifFalse->type == Type::unreachable ||

@@ -1201,6 +1201,12 @@ function wrapModule(module, self = {}) {
     'mul_wide_u'(left, right) {
       return Module['_BinaryenWideIntMul'](module, Module['MulWideUInt64'], left, right);
     },
+    'add_wide2'(left, right) {
+      return Module['_BinaryenWideIntAdd2'](module, left, right);
+    },
+    'add_wide3'(left, middle, right) {
+      return Module['_BinaryenWideIntAdd3'](module, left, middle, right);
+    },
     'sub'(left, right) {
       return Module['_BinaryenBinary'](module, Module['SubInt64'], left, right);
     },
@@ -4279,6 +4285,42 @@ Module['WideIntMul'] = makeExpressionWrapper(Module['_BinaryenWideIntMulId'](), 
   },
   'setRight'(expr, rightExpr) {
     Module['_BinaryenWideIntMulSetRight'](expr, rightExpr);
+  }
+});
+
+Module['WideIntAdd2'] = makeExpressionWrapper(Module['_BinaryenWideIntAdd2Id'](), {
+  'getLeft'(expr) {
+    return Module['_BinaryenWideIntAdd2GetLeft'](expr);
+  },
+  'setLeft'(expr, leftExpr) {
+    Module['_BinaryenWideIntAdd2SetLeft'](expr, leftExpr);
+  },
+  'getRight'(expr) {
+    return Module['_BinaryenWideIntAdd2GetRight'](expr);
+  },
+  'setRight'(expr, rightExpr) {
+    Module['_BinaryenWideIntAdd2SetRight'](expr, rightExpr);
+  }
+});
+
+Module['WideIntAdd3'] = makeExpressionWrapper(Module['_BinaryenWideIntAdd3Id'](), {
+  'getLeft'(expr) {
+    return Module['_BinaryenWideIntAdd3GetLeft'](expr);
+  },
+  'setLeft'(expr, leftExpr) {
+    Module['_BinaryenWideIntAdd3SetLeft'](expr, leftExpr);
+  },
+  'getMiddle'(expr) {
+    return Module['_BinaryenWideIntAdd3GetMiddle'](expr);
+  },
+  'setMiddle'(expr, middleExpr) {
+    Module['_BinaryenWideIntAdd3SetMiddle'](expr, middleExpr);
+  },
+  'getRight'(expr) {
+    return Module['_BinaryenWideIntAdd3GetRight'](expr);
+  },
+  'setRight'(expr, rightExpr) {
+    Module['_BinaryenWideIntAdd3SetRight'](expr, rightExpr);
   }
 });
 

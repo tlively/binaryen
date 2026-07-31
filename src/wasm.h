@@ -780,6 +780,8 @@ public:
     StructWaitId,
     WideIntAddSubId,
     WideIntMulId,
+    WideIntAdd2Id,
+    WideIntAdd3Id,
     WaitqueueNewId,
     WaitqueueNotifyId,
     NumExpressionIds
@@ -1331,6 +1333,29 @@ public:
 
   WideIntMulOp op;
   Expression* left;
+  Expression* right;
+
+  void finalize();
+};
+
+class WideIntAdd2 : public SpecificExpression<Expression::WideIntAdd2Id> {
+public:
+  WideIntAdd2() = default;
+  WideIntAdd2(MixedArena& allocator) {}
+
+  Expression* left;
+  Expression* right;
+
+  void finalize();
+};
+
+class WideIntAdd3 : public SpecificExpression<Expression::WideIntAdd3Id> {
+public:
+  WideIntAdd3() = default;
+  WideIntAdd3(MixedArena& allocator) {}
+
+  Expression* left;
+  Expression* middle;
   Expression* right;
 
   void finalize();

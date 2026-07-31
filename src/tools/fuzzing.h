@@ -479,6 +479,8 @@ private:
   Expression* makeTupleMake(Type type);
   Expression* makeWideIntAddSub(Type type);
   Expression* makeWideIntMul(Type type);
+  Expression* makeWideIntAdd2(Type type);
+  Expression* makeWideIntAdd3(Type type);
   Expression* makeWideIntExpression(Type type);
   Expression* makeTupleExtract(Type type);
   Expression* makePointer();

@@ -860,6 +860,15 @@ BinaryenWideIntMul(BinaryenModuleRef module,
                    BinaryenExpressionRef left,
                    BinaryenExpressionRef right);
 BINARYEN_API BinaryenExpressionRef
+BinaryenWideIntAdd2(BinaryenModuleRef module,
+                    BinaryenExpressionRef left,
+                    BinaryenExpressionRef right);
+BINARYEN_API BinaryenExpressionRef
+BinaryenWideIntAdd3(BinaryenModuleRef module,
+                    BinaryenExpressionRef left,
+                    BinaryenExpressionRef middle,
+                    BinaryenExpressionRef right);
+BINARYEN_API BinaryenExpressionRef
 BinaryenSelect(BinaryenModuleRef module,
                BinaryenExpressionRef condition,
                BinaryenExpressionRef ifTrue,
@@ -1783,6 +1792,43 @@ BinaryenWideIntMulGetRight(BinaryenExpressionRef expr);
 // Sets the right expression of a wide int mul expression.
 BINARYEN_API void BinaryenWideIntMulSetRight(BinaryenExpressionRef expr,
                                              BinaryenExpressionRef rightExpr);
+
+// WideIntAdd2
+
+// Gets the left expression of a wide int add2 expression.
+BINARYEN_API BinaryenExpressionRef
+BinaryenWideIntAdd2GetLeft(BinaryenExpressionRef expr);
+// Sets the left expression of a wide int add2 expression.
+BINARYEN_API void BinaryenWideIntAdd2SetLeft(BinaryenExpressionRef expr,
+                                             BinaryenExpressionRef leftExpr);
+// Gets the right expression of a wide int add2 expression.
+BINARYEN_API BinaryenExpressionRef
+BinaryenWideIntAdd2GetRight(BinaryenExpressionRef expr);
+// Sets the right expression of a wide int add2 expression.
+BINARYEN_API void BinaryenWideIntAdd2SetRight(BinaryenExpressionRef expr,
+                                              BinaryenExpressionRef rightExpr);
+
+// WideIntAdd3
+
+// Gets the left expression of a wide int add3 expression.
+BINARYEN_API BinaryenExpressionRef
+BinaryenWideIntAdd3GetLeft(BinaryenExpressionRef expr);
+// Sets the left expression of a wide int add3 expression.
+BINARYEN_API void BinaryenWideIntAdd3SetLeft(BinaryenExpressionRef expr,
+                                             BinaryenExpressionRef leftExpr);
+// Gets the middle expression of a wide int add3 expression.
+BINARYEN_API BinaryenExpressionRef
+BinaryenWideIntAdd3GetMiddle(BinaryenExpressionRef expr);
+// Sets the middle expression of a wide int add3 expression.
+BINARYEN_API void
+BinaryenWideIntAdd3SetMiddle(BinaryenExpressionRef expr,
+                             BinaryenExpressionRef middleExpr);
+// Gets the right expression of a wide int add3 expression.
+BINARYEN_API BinaryenExpressionRef
+BinaryenWideIntAdd3GetRight(BinaryenExpressionRef expr);
+// Sets the right expression of a wide int add3 expression.
+BINARYEN_API void BinaryenWideIntAdd3SetRight(BinaryenExpressionRef expr,
+                                              BinaryenExpressionRef rightExpr);
 
 // Select
 

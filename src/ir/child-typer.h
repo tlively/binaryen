@@ -717,6 +717,17 @@ template<typename Subtype> struct ChildTyper : OverriddenVisitor<Subtype> {
     note(&curr->right, Type::i64);
   }
 
+  void visitWideIntAdd2(WideIntAdd2* curr) {
+    note(&curr->left, Type::i64);
+    note(&curr->right, Type::i64);
+  }
+
+  void visitWideIntAdd3(WideIntAdd3* curr) {
+    note(&curr->left, Type::i64);
+    note(&curr->middle, Type::i64);
+    note(&curr->right, Type::i64);
+  }
+
   void visitSelect(Select* curr, std::optional<Type> type = std::nullopt) {
     if (type) {
       note(&curr->ifTrue, *type);

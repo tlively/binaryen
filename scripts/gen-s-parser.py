@@ -152,6 +152,8 @@ instructions = [
     ("i64.sub128",     "makeWideIntAddSub(WideIntAddSubOp::SubInt128)"),
     ("i64.mul_wide_s", "makeWideIntMul(WideIntMulOp::MulWideSInt64)"),
     ("i64.mul_wide_u", "makeWideIntMul(WideIntMulOp::MulWideUInt64)"),
+    ("i64.add_wide2",  "makeWideIntAdd2()"),
+    ("i64.add_wide3",  "makeWideIntAdd3()"),
     ("f32.abs",        "makeUnary(UnaryOp::AbsFloat32)"),
     ("f32.neg",        "makeUnary(UnaryOp::NegFloat32)"),
     ("f32.ceil",       "makeUnary(UnaryOp::CeilFloat32)"),

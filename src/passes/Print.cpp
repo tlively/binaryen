@@ -2065,6 +2065,16 @@ struct PrintExpressionContents
     }
     restoreNormalColor(o);
   }
+  void visitWideIntAdd2(WideIntAdd2* curr) {
+    prepareColor(o);
+    o << "i64.add_wide2";
+    restoreNormalColor(o);
+  }
+  void visitWideIntAdd3(WideIntAdd3* curr) {
+    prepareColor(o);
+    o << "i64.add_wide3";
+    restoreNormalColor(o);
+  }
   void visitSelect(Select* curr) {
     prepareColor(o) << "select";
     restoreNormalColor(o);

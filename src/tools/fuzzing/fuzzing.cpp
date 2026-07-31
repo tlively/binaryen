@@ -3547,8 +3547,34 @@ Expression* TranslateToFuzzReader::makeWideIntMul(Type type) {
   return builder.makeWideIntMul(op, left, right);
 }
 
+Expression* TranslateToFuzzReader::makeWideIntAdd2(Type type) {
+  assert(wasm.features.hasWideArithmetic());
+  assert(type == Types::getI64Pair());
+  auto* left = make(Type::i64);
+  auto* right = make(Type::i64);
+  return builder.makeWideIntAdd2(left, right);
+}
+
+Expression* TranslateToFuzzReader::makeWideIntAdd3(Type type) {
+  assert(wasm.features.hasWideArithmetic());
+  assert(type == Types::getI64Pair());
+  auto* left = make(Type::i64);
+  auto* middle = make(Type::i64);
+  auto* right = make(Type::i64);
+  return builder.makeWideIntAdd3(left, middle, right);
+}
+
 Expression* TranslateToFuzzReader::makeWideIntExpression(Type type) {
-  return oneIn(2) ? makeWideIntAddSub(type) : makeWideIntMul(type);
+  auto choice = upTo(4);
+  if (choice == 0) {
+    return makeWideIntAddSub(type);
+  } else if (choice == 1) {
+    return makeWideIntMul(type);
+  } else if (choice == 2) {
+    return makeWideIntAdd2(type);
+  } else {
+    return makeWideIntAdd3(type);
+  }
 }
 
 Expression* TranslateToFuzzReader::makeTupleExtract(Type type) {

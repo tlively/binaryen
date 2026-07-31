@@ -1356,6 +1356,20 @@ BinaryenExpressionRef BinaryenWideIntMul(BinaryenModuleRef module,
   return Builder(*(Module*)module)
     .makeWideIntMul(WideIntMulOp(op), (Expression*)left, (Expression*)right);
 }
+BinaryenExpressionRef BinaryenWideIntAdd2(BinaryenModuleRef module,
+                                          BinaryenExpressionRef left,
+                                          BinaryenExpressionRef right) {
+  return Builder(*(Module*)module)
+    .makeWideIntAdd2((Expression*)left, (Expression*)right);
+}
+BinaryenExpressionRef BinaryenWideIntAdd3(BinaryenModuleRef module,
+                                          BinaryenExpressionRef left,
+                                          BinaryenExpressionRef middle,
+                                          BinaryenExpressionRef right) {
+  return Builder(*(Module*)module)
+    .makeWideIntAdd3(
+      (Expression*)left, (Expression*)middle, (Expression*)right);
+}
 BinaryenExpressionRef BinaryenSelect(BinaryenModuleRef module,
                                      BinaryenExpressionRef condition,
                                      BinaryenExpressionRef ifTrue,
@@ -3101,6 +3115,68 @@ void BinaryenWideIntMulSetRight(BinaryenExpressionRef expr,
   assert(expression->is<WideIntMul>());
   assert(rightExpr);
   static_cast<WideIntMul*>(expression)->right = (Expression*)rightExpr;
+}
+// WideIntAdd2
+BinaryenExpressionRef BinaryenWideIntAdd2GetLeft(BinaryenExpressionRef expr) {
+  auto* expression = (Expression*)expr;
+  assert(expression->is<WideIntAdd2>());
+  return static_cast<WideIntAdd2*>(expression)->left;
+}
+void BinaryenWideIntAdd2SetLeft(BinaryenExpressionRef expr,
+                                BinaryenExpressionRef leftExpr) {
+  auto* expression = (Expression*)expr;
+  assert(expression->is<WideIntAdd2>());
+  assert(leftExpr);
+  static_cast<WideIntAdd2*>(expression)->left = (Expression*)leftExpr;
+}
+BinaryenExpressionRef BinaryenWideIntAdd2GetRight(BinaryenExpressionRef expr) {
+  auto* expression = (Expression*)expr;
+  assert(expression->is<WideIntAdd2>());
+  return static_cast<WideIntAdd2*>(expression)->right;
+}
+void BinaryenWideIntAdd2SetRight(BinaryenExpressionRef expr,
+                                 BinaryenExpressionRef rightExpr) {
+  auto* expression = (Expression*)expr;
+  assert(expression->is<WideIntAdd2>());
+  assert(rightExpr);
+  static_cast<WideIntAdd2*>(expression)->right = (Expression*)rightExpr;
+}
+// WideIntAdd3
+BinaryenExpressionRef BinaryenWideIntAdd3GetLeft(BinaryenExpressionRef expr) {
+  auto* expression = (Expression*)expr;
+  assert(expression->is<WideIntAdd3>());
+  return static_cast<WideIntAdd3*>(expression)->left;
+}
+void BinaryenWideIntAdd3SetLeft(BinaryenExpressionRef expr,
+                                BinaryenExpressionRef leftExpr) {
+  auto* expression = (Expression*)expr;
+  assert(expression->is<WideIntAdd3>());
+  assert(leftExpr);
+  static_cast<WideIntAdd3*>(expression)->left = (Expression*)leftExpr;
+}
+BinaryenExpressionRef BinaryenWideIntAdd3GetMiddle(BinaryenExpressionRef expr) {
+  auto* expression = (Expression*)expr;
+  assert(expression->is<WideIntAdd3>());
+  return static_cast<WideIntAdd3*>(expression)->middle;
+}
+void BinaryenWideIntAdd3SetMiddle(BinaryenExpressionRef expr,
+                                  BinaryenExpressionRef middleExpr) {
+  auto* expression = (Expression*)expr;
+  assert(expression->is<WideIntAdd3>());
+  assert(middleExpr);
+  static_cast<WideIntAdd3*>(expression)->middle = (Expression*)middleExpr;
+}
+BinaryenExpressionRef BinaryenWideIntAdd3GetRight(BinaryenExpressionRef expr) {
+  auto* expression = (Expression*)expr;
+  assert(expression->is<WideIntAdd3>());
+  return static_cast<WideIntAdd3*>(expression)->right;
+}
+void BinaryenWideIntAdd3SetRight(BinaryenExpressionRef expr,
+                                 BinaryenExpressionRef rightExpr) {
+  auto* expression = (Expression*)expr;
+  assert(expression->is<WideIntAdd3>());
+  assert(rightExpr);
+  static_cast<WideIntAdd3*>(expression)->right = (Expression*)rightExpr;
 }
 // Select
 BinaryenExpressionRef BinaryenSelectGetIfTrue(BinaryenExpressionRef expr) {

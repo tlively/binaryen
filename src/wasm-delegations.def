@@ -120,6 +120,8 @@ DELEGATE(StackSwitch);
 DELEGATE(StructWait);
 DELEGATE(WideIntAddSub);
 DELEGATE(WideIntMul);
+DELEGATE(WideIntAdd2);
+DELEGATE(WideIntAdd3);
 DELEGATE(WaitqueueNew);
 DELEGATE(WaitqueueNotify);
 

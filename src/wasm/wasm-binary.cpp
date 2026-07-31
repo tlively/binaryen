@@ -4215,6 +4215,10 @@ Result<> WasmBinaryReader::readInst() {
           return builder.makeWideIntMul(MulWideSInt64);
         case BinaryConsts::I64MulWideU:
           return builder.makeWideIntMul(MulWideUInt64);
+        case BinaryConsts::I64AddWide2:
+          return builder.makeWideIntAdd2();
+        case BinaryConsts::I64AddWide3:
+          return builder.makeWideIntAdd3();
         case BinaryConsts::TableSize:
           return builder.makeTableSize(getTableName(getU32LEB()));
         case BinaryConsts::TableGrow:

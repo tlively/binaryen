@@ -1842,6 +1842,20 @@ Result<> IRBuilder::makeWideIntMul(WideIntMulOp op) {
   return Ok{};
 }
 
+Result<> IRBuilder::makeWideIntAdd2() {
+  WideIntAdd2 curr;
+  CHECK_ERR(visitWideIntAdd2(&curr));
+  push(builder.makeWideIntAdd2(curr.left, curr.right));
+  return Ok{};
+}
+
+Result<> IRBuilder::makeWideIntAdd3() {
+  WideIntAdd3 curr;
+  CHECK_ERR(visitWideIntAdd3(&curr));
+  push(builder.makeWideIntAdd3(curr.left, curr.middle, curr.right));
+  return Ok{};
+}
+
 Result<> IRBuilder::makeSelect(std::optional<Type> type) {
   Select curr;
   CHECK_ERR(visitSelect(&curr));

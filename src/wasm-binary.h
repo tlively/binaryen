@@ -1151,6 +1151,8 @@ enum ASTNodes {
   I64Sub128 = 0x14,
   I64MulWideS = 0x15,
   I64MulWideU = 0x16,
+  I64AddWide2 = 0x17,
+  I64AddWide3 = 0x18,
 
   // reference types opcodes
 

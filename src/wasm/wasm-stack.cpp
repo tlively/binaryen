@@ -2327,6 +2327,16 @@ void BinaryInstWriter::visitWideIntMul(WideIntMul* curr) {
   }
 }
 
+void BinaryInstWriter::visitWideIntAdd2(WideIntAdd2* curr) {
+  o << static_cast<int8_t>(BinaryConsts::MiscPrefix);
+  o << U32LEB(BinaryConsts::I64AddWide2);
+}
+
+void BinaryInstWriter::visitWideIntAdd3(WideIntAdd3* curr) {
+  o << static_cast<int8_t>(BinaryConsts::MiscPrefix);
+  o << U32LEB(BinaryConsts::I64AddWide3);
+}
+
 void BinaryInstWriter::visitReturn(Return* curr) {
   o << static_cast<int8_t>(BinaryConsts::Return);
 }

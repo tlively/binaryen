@@ -510,6 +510,8 @@ public:
   void visitBinary(Binary* curr);
   void visitWideIntAddSub(WideIntAddSub* curr);
   void visitWideIntMul(WideIntMul* curr);
+  void visitWideIntAdd2(WideIntAdd2* curr);
+  void visitWideIntAdd3(WideIntAdd3* curr);
   void visitUnary(Unary* curr);
   void visitSelect(Select* curr);
   void visitDrop(Drop* curr);
@@ -2480,6 +2482,34 @@ void FunctionValidator::visitWideIntMul(WideIntMul* curr) {
                "[--enable-wide-arithmetic]");
 
   for (auto* operand : {curr->left, curr->right}) {
+    shouldBeEqualOrFirstIsUnreachable(operand->type,
+                                      Type(Type::i64),
+                                      curr,
+                                      "wide binary child types must be i64");
+  }
+}
+
+void FunctionValidator::visitWideIntAdd2(WideIntAdd2* curr) {
+  shouldBeTrue(getModule()->features.hasWideArithmetic(),
+               curr,
+               "i64.add_wide2 requires wide arithmetic "
+               "[--enable-wide-arithmetic]");
+
+  for (auto* operand : {curr->left, curr->right}) {
+    shouldBeEqualOrFirstIsUnreachable(operand->type,
+                                      Type(Type::i64),
+                                      curr,
+                                      "wide binary child types must be i64");
+  }
+}
+
+void FunctionValidator::visitWideIntAdd3(WideIntAdd3* curr) {
+  shouldBeTrue(getModule()->features.hasWideArithmetic(),
+               curr,
+               "i64.add_wide3 requires wide arithmetic "
+               "[--enable-wide-arithmetic]");
+
+  for (auto* operand : {curr->left, curr->middle, curr->right}) {
     shouldBeEqualOrFirstIsUnreachable(operand->type,
                                       Type(Type::i64),
                                       curr,

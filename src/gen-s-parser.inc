@@ -3407,6 +3407,23 @@ switch (buf[0]) {
                           return Ok{};
                         }
                         goto parse_error;
+                      case '_': {
+                        switch (buf[12]) {
+                          case '2':
+                            if (op == "i64.add_wide2"sv) {
+                              CHECK_ERR(makeWideIntAdd2(ctx, pos, annotations));
+                              return Ok{};
+                            }
+                            goto parse_error;
+                          case '3':
+                            if (op == "i64.add_wide3"sv) {
+                              CHECK_ERR(makeWideIntAdd3(ctx, pos, annotations));
+                              return Ok{};
+                            }
+                            goto parse_error;
+                          default: goto parse_error;
+                        }
+                      }
                       default: goto parse_error;
                     }
                   }

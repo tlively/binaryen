@@ -636,6 +636,8 @@ struct InfoCollector
   void visitBinary(Binary* curr) { addRoot(curr); }
   void visitWideIntAddSub(WideIntAddSub* curr) { addRoot(curr); }
   void visitWideIntMul(WideIntMul* curr) { addRoot(curr); }
+  void visitWideIntAdd2(WideIntAdd2* curr) { addRoot(curr); }
+  void visitWideIntAdd3(WideIntAdd3* curr) { addRoot(curr); }
   void visitSelect(Select* curr) {
     receiveChildValue(curr->ifTrue, curr);
     receiveChildValue(curr->ifFalse, curr);
